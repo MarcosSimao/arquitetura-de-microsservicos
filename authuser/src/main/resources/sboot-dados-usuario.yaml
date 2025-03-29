@@ -1,0 +1,80 @@
+openapi: 3.0.1
+info:
+  title: Api de Usuario
+  description: "Essa api , tem como objetivo buscar usuarios cadastrados"
+  version: 1.0.0
+servers:
+  - url: http://localhost/usuario
+  - url: https://localhost/usuario
+tags:
+  - name: Buscar Usuario
+paths:
+  /users:
+    get:
+      summary: Listar todos os usuários
+      description: Retorna uma lista de usuários cadastrados no sistema.
+      operationId: getFindAll
+      tags:
+        - Usuários
+      responses:
+        "200":
+          description: Lista de usuários obtida com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserModel"
+  /users/{userId}:
+    get:
+      tags:
+        - Buscar Usuario
+      summary: buscar Ususario por cpf
+      description: "esta operacão tem como objetivo , buscar usuario existente por\
+        \ id"
+      operationId: BuscarUserId
+      parameters:
+        - name: userId
+          in: path
+          description: id do usuario
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModel'
+        "400":
+          description: 'consulta invalida! '
+          content: {}
+        "401":
+          description: não possui credenciais de autenticação válidas para o recurso
+            de destino
+          content: {}
+        "404":
+          description: 'Usuario nao encontrado '
+          content: {}
+        "500":
+          description: Erro interno ao tentar consultar Usuario
+          content: {}
+components:
+  schemas:
+    UserModel:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: identificador do usuario
+        nome:
+          type: string
+          description: nome do Usuario
+        cpf:
+          type: string
+          description: cpf do usuario
+        password:
+          type: string
+          description: senha do usuario
+
